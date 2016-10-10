@@ -19,9 +19,13 @@ class Preg
     
     public function setSubject($subject){
         $this->subject = (string) $subject;
-        Logger::debug('subject = '.var_export($subject, true));
+        $this->log('subject = ', $subject);
     }
     
+    public function getPattern(){
+        return $this->pattern;
+    }
+
     public function setPattern($pattern){
         $delim = substr($pattern, 0, 1);
         $endReg = str::lastPos($pattern, $delim);
@@ -33,9 +37,9 @@ class Preg
         if(substr($this->pattern, 0, 1) == '^')$this->pattern = substr($this->pattern, 1);
         if(substr($this->pattern, -1) == '$')$this->pattern = substr($this->pattern, 0, -1);
        
-        Logger::debug('pattern = '.var_export($this->pattern, true));
-        Logger::debug('modifs = '.var_export($modifs, true));
-        Logger::debug('flags = '.var_export($this->flags, true));
+        $this->log('pattern = '. $this->pattern);
+        $this->log('modifs = ',$modifs);
+        $this->log('flags = '. $this->flags);
         
         return $this;
     }
@@ -75,7 +79,7 @@ class Preg
         
         foreach($modifiers as $m){
             if(isset($mods[$m])){
-                $this->flags &= $mods[$m];
+                $this->flags |= $mods[$m];
             }
         }
     }
@@ -83,7 +87,7 @@ class Preg
     public function count(){
         return $this->reg->getGroupCount() + 1;
     }
-        
+
     public function matches(){
         $return = [];
         for($i = 0; $i < $this->count(); ++$i){
@@ -91,5 +95,24 @@ class Preg
         }
         
         return $return;
+    }
+
+    const LOG = false;
+    private function log(...$args){
+        if(self::LOG !== true) return;
+        $message = '';
+        //$args = func_get_args();
+        foreach($args as $arg){
+            if(is_string($arg)){
+                $message.=$arg;
+            } else {
+                $message.=var_export($arg, true);
+            }
+        }
+
+        $lines = explode("\n", trim($message));
+        foreach ($lines as $line){
+            Logger::Debug('[Preg] ' . $line);
+        }
     }
 }

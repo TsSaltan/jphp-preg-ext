@@ -6,4 +6,4 @@ icon=develnext/bundle/preg/preg.png
 
 class=develnext\\bundle\\preg\\pregBundle
 author=Ts.Saltan
-version=0.1
+version=0.2
