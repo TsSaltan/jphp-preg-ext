@@ -21,4 +21,4 @@
 ```
 
 - [**Документация**](api-docs/README.md)
-- [**Пакет расширений для DevelNext**](https://github.com/TsSaltan/preg/releases)
+- [**Пакет расширений для DevelNext**](https://github.com/TsSaltan/jphp-preg-ext/releases)
