@@ -22,8 +22,9 @@ doc:
 
 config:
   ignore:
-  - 'package.hub.yml'
-  - '.git/*'
-  - '*.phpintel'
-
-
+  - /*.iml
+  - /.git/**
+  - /package.hub.yml
+  - /.gitignore
+  - /settings.gradle
+  - /**.phpintel
