@@ -1,4 +1,4 @@
-## preg
+# Preg
 > version 1.0
 
 Полифилл preg_* функций из php
@@ -8,10 +8,7 @@
 jppm add preg@*
 ```
 
-### API
-**Функции**
-
-#### ``
+### Функции
 - `->`[`preg_match_all()`](#func-preg_match_all)
 - `->`[`preg_match()`](#func-preg_match)
 - `->`[`preg_grep()`](#func-preg_grep)
