@@ -5,7 +5,7 @@
 
 ### Установка
 ```
-jppm add preg@1.0
+jppm add preg@*
 ```
 
 ### Функции
