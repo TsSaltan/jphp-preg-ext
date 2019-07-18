@@ -1,25 +1,48 @@
-<?php
-/**
- * Становятся доступa preg_* функции
- *
- * Обязательно, чтоб функции были объявлены в корневом namespace
- */
+## preg
+> version 1.0
 
-namespace;
+Полифилл preg_* функций из php
 
-// Для autoloader'а
-class preg{
+### Install
+```
+jppm add preg@*
+```
 
-}
+### API
+**Функции**
 
-use bundle\preg\Preg;
-use php\framework\Logger;
-use php\util\Regex;
+#### ``
+- `->`[`preg_match_all()`](#func-preg_match_all)
+- `->`[`preg_match()`](#func-preg_match)
+- `->`[`preg_grep()`](#func-preg_grep)
+- `->`[`preg_replace()`](#func-preg_replace)
+- `->`[`preg_replace_callback()`](#func-preg_replace_callback)
+- `->`[`preg_split()`](#func-preg_split)
+- `->`[`preg_quote()`](#func-preg_quote)
 
-define('PREG_PATTERN_ORDER', 1 << 0);
-define('PREG_SET_ORDER', 1 << 1);
-define('PREG_GREP_INVERT', 1 << 2);
+---
 
+# Поддерживаемые модификаторы
+```
+i (php - PCRE_CASELESS, jphp - CASE_INSENSITIVE)
+Если этот модификатор используется, символы в шаблоне соответствуют символам как верхнего, так и нижнего регистра.
+
+m (php - PCRE_MULTILINE, jphp - MULTILINE)
+Многострочный поиск
+
+s (php - PCRE_DOTALL, jphp - DOTALL)
+Если данный модификатор используется, метасимвол "точка" в шаблоне соответствует всем символам, включая перевод строк. Без него - всем, за исключением переводов строк. Этот модификатор эквивалентен записи /s в Perl. Класс символов, построенный на отрицании, например [^a], всегда соответствует переводу строки, независимо от наличия этого модификатора.
+
+u (php - PCRE_UTF8, jphp - UNICODE_CASE)
+Этот модификатор включает дополнительную функциональность: шаблон и целевая строка обрабатываются как UTF-8 строки.
+```
+
+# Функции
+
+<a name="func-preg_match_all"></a>
+
+### preg_match_all()
+```php
 /**
  * --RU--
  * Выполняет глобальный поиск шаблона в строке
@@ -32,27 +55,15 @@ define('PREG_GREP_INVERT', 1 << 2);
  * @param   int     $flags    (optional)  Возможные значения - PREG_PATTERN_ORDER, PREG_SET_ORDER
  * @return  int
  */
-function preg_match_all($pattern, $subject, &$matches = null, $flags = PREG_PATTERN_ORDER){
-	$preg = new Preg($pattern, $subject);
-	$preg->compile();
-	$matches = [];
+function preg_match_all($pattern, $subject, &$matches = null, $flags = PREG_PATTERN_ORDER): int
+```
 
-	while ($preg->find()){
-		if($flags & PREG_PATTERN_ORDER){
-			foreach($preg->matches() as $k=>$v){
-				$matches[$k][] = $v;
-			}
-		}
-		elseif($flags & PREG_SET_ORDER){
-			$matches[] = $preg->matches();
-		}
-	}
+---
+<a name="func-preg_match"></a>
 
-	return isset($matches[0]) ? sizeof($matches[0]) : 0;
-}
-
+### preg_match()
+```php
 /**
- * --RU--
  * Выполняет проверку на соответствие регулярному выражению
  * 
  * @link    http://php.net/manual/function.preg-match.php
@@ -62,21 +73,15 @@ function preg_match_all($pattern, $subject, &$matches = null, $flags = PREG_PATT
  * @param   array   $matches  (optional)  Параметр будет заполнен результатами поиска
  * @return  int
  */
-function preg_match($pattern, $subject, &$matches = null){
-	// todo: добавить поддержку параметров $flags, $offset
-	$preg = new preg($pattern, $subject);
-	$preg->compile();
-	$matches = [];
+function preg_match($pattern, $subject, &$matches = null): int
+```
 
-	if($preg->find()){
-		$matches = $preg->matches();
-	}
+---
+<a name="func-preg_grep"></a>
 
-	return sizeof($matches);
-}
-
+### preg_grep()
+```php
 /**
- * --RU--
  * Возвращает массив вхождений, которые соответствуют шаблону
  * 
  * @link    http://php.net/manual/function.preg-grep.php
@@ -86,26 +91,14 @@ function preg_match($pattern, $subject, &$matches = null){
  * @param   int     $flags    (optional)  Возможное значение - PREG_GREP_INVERT
  * @return  array
  */
-function preg_grep($pattern, $input, $flags = 0){
-	$return = [];
-	foreach($input as $subject){
-		$preg = new preg($pattern, $subject);
-		$preg->compile();
-		$find = $preg->find();
+function preg_grep($pattern, $input, $flags = 0): array
+```
 
-		if(
-			($find && !($flags & PREG_GREP_INVERT)) ||
-			(!$find && ($flags & PREG_GREP_INVERT)) 
-			){
-				$return[] = $subject;
-		}
-		
-		//PREG_GREP_INVERT
-	}
+---
+<a name="func-preg_replace"></a>
 
-	return $return;
-}
-
+### preg_replace()
+```php
 /**
  * --RU--
  * Выполняет поиск и замену по регулярному выражению
@@ -117,42 +110,14 @@ function preg_grep($pattern, $input, $flags = 0){
  * @param   mixed  $subject      Строка или массив строк для поиска и замены
  * @return  mixed  Строка или массив, в зависимости от параметра $subject
  */
-function preg_replace($pattern, $replacement, $subject){
-	// todo: поддержка параметров $limit, $count
-	if(is_array($subject)){
-		foreach($subject as $k=>$one){
-			$subject[$k] = preg_replace($pattern, $replacement, $one);
-		}
+function preg_replace($pattern, $replacement, $subject)
+```
 
-		return $subject;
-	}
+---
+<a name="func-preg_replace_callback"></a>
 
-	if(is_array($pattern)){
-		foreach($pattern as $k=>$p){
-			$replaceItem = (
-				(is_array($replacement)) 
-					? (
-						(isset($replacement[$k]))
-						? $replacement[$k]
-						: end($replacement)
-					  ) 
-					: $replacement
-			);
-			$subject = preg_replace($p, $replaceItem, $subject);
-		}
-		return $subject;
-	}
-
-	try{
-		$preg = new preg($pattern, $subject);
-		$preg->compile();
-		return $preg->replace($replacement);
-	} catch (\php\lang\IllegalArgumentException $e){
-		Logger::Warn('preg_replace: ' . $e->getMessage());
-		return NULL;
-	}
-}
-
+### preg_replace_callback()
+```php
 /**
  * --RU--
  * Выполняет поиск по регулярному выражению и замену с использованием callback-функции
@@ -164,32 +129,14 @@ function preg_replace($pattern, $replacement, $subject){
  * @param   mixed     $subject   Строка или массив для поиска и замены
  * @return  mixed     Строка или массив, в зависимости от параметра $subject
  */
-function preg_replace_callback($pattern, $callback, $subject){
-	if(is_array($subject)){
-		foreach($subject as $k=>$one){
-			$subject[$k] = preg_replace_callback($pattern, $callback, $one);
-		}
+function preg_replace_callback($pattern, $callback, $subject)
+```
 
-		return $subject;
-	}
+---
+<a name="func-preg_split"></a>
 
-	if(is_array($pattern)){
-		foreach($pattern as $k=>$p){
-			$subject = preg_replace_callback($p, $callback, $subject);
-		}
-		return $subject;
-	}
-
-	try{
-		$preg = new preg($pattern, $subject);
-		$preg->compile();
-		return $preg->replaceCallback($callback);
-	} catch (\php\lang\IllegalArgumentException $e){
-		Logger::Warn('preg_replace_callback: ' . $e->getMessage());
-		return NULL;
-	}
-}
-
+### preg_split()
+```php
 /**
  * --RU--
  * Разбивает строку по регулярному выражению
@@ -201,12 +148,14 @@ function preg_replace_callback($pattern, $callback, $subject){
  * @param   int     $limit    (optional)  Если указан, функция возвращает не более, чем limit подстрок
  * @return  array
  */
-function preg_split($pattern, $subject, $limit = 0){
-	$preg = new preg($pattern, $subject);
-	$p = $preg->getPattern();
-	return Regex::split($p, $subject, $limit);
-}
+function preg_split($pattern, $subject, $limit = 0): array
+```
 
+---
+<a name="func-preg_quote"></a>
+
+### preg_quote()
+```php
 /**
  * --RU--
  * Экранирует символы в регулярных выражениях
@@ -217,10 +166,6 @@ function preg_split($pattern, $subject, $limit = 0){
  * @param   string  $delimiter  (optional)  Символ, который будет также экранироваться
  * @return  string
  */
- function preg_quote($str, $delimiter = null){
- 	$symbols = ['.', "\\", '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-', $delimiter];
- 	foreach ($symbols as $symbol) {
- 		$str = str_replace($symbol, "\\" . $symbol, $str);
- 	}
- 	return $str;
- }
+ function preg_quote($str, $delimiter = null): string
+```
+---

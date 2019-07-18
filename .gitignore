@@ -1,6 +1,2 @@
-
-build/
-.idea
-.gradle/
-
-*.iml
+*.phpintel
+package.hub.yml
