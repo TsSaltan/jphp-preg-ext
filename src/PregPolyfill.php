@@ -1,12 +1,9 @@
 <?php
-namespace bundle\preg;
-
 use php\framework\Logger;
 use php\util\Regex;
 use php\lib\str;
 
-class Preg
-{
+class PregPolyfill {
     protected $reg, $pattern, $subject, $flags;
     public static function of($pattern = null, $subject = null){
         return new self($pattern, $subject);

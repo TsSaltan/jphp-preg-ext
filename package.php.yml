@@ -1,0 +1,25 @@
+name: preg
+description: Включает поддержку preg_* функций
+version: 1.0.0
+plugins:
+  - Hub
+  - Doc
+
+sources:
+  - src
+includes:
+  - index.php
+
+deps:
+  jphp-runtime: '*'
+  jphp-core: '*'
+
+hub:
+  login: tssaltan@gmail.com
+
+config:
+  ignore:
+  - package.hub.yml
+  - .git
+
+
