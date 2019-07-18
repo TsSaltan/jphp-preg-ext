@@ -1,9 +1,13 @@
 # Preg
-> version 1.0
+> version 1.0.0
 
 Полифилл preg_* функций из php
 
 ### Установка
+```
+jppm add preg@git+https://github.com/TsSaltan/preg
+```
+или
 ```
 jppm add preg@*
 ```
