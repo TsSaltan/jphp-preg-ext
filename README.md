@@ -20,4 +20,4 @@
 [Add] preg_replace_callback
 ```
 
-[`Документация`](api-docs/README.md)
+[**Документация**](api-docs/README.md)

@@ -17,6 +17,9 @@ deps:
 hub:
   login: tssaltan@gmail.com
 
+doc:
+  url-prefix: https://github.com/TsSaltan/preg/blob/api-docs/
+
 config:
   ignore:
   - package.hub.yml

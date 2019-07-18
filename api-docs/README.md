@@ -3,9 +3,9 @@
 
 Полифилл preg_* функций из php
 
-### Install
+### Установка
 ```
-jppm add preg@*
+jppm add preg@1.0
 ```
 
 ### Функции
