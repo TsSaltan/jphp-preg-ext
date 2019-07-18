@@ -20,5 +20,5 @@
 [Add] preg_replace_callback
 ```
 
-[**Документация**](api-docs/README.md)
-[**Пакет расширений для DevelNext**](https://github.com/TsSaltan/preg/releases)
+- [**Документация**](api-docs/README.md)
+- [**Пакет расширений для DevelNext**](https://github.com/TsSaltan/preg/releases)
