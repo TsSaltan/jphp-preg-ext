@@ -1,6 +1,6 @@
 name: preg
 description: Полифилл preg_* функций из php
-version: 1.0
+version: 1.0.0
 plugins:
   - Hub
   - Doc
