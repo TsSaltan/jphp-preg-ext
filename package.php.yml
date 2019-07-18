@@ -18,12 +18,12 @@ hub:
   login: tssaltan@gmail.com
 
 doc:
-  url-prefix: https://github.com/TsSaltan/preg/blob/api-docs/
+  url-prefix: https://github.com/TsSaltan/preg/blob/master/api-docs/
 
 config:
   ignore:
-  - package.hub.yml
-  - .git
-  - .phpintel
+  - 'package.hub.yml'
+  - '.git/*'
+  - '*.phpintel'
 
 
